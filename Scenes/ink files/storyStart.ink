@@ -1,6 +1,7 @@
 ﻿EXTERNAL ChangeBackground(imageName)
 EXTERNAL ToggleGameplay(shouldItStart)
 EXTERNAL AskInput(varName, continueTag)
+EXTERNAL Scene_Home()
 
 VAR meyir_mood = ""
 VAR playerName = ""
@@ -71,47 +72,32 @@ She continues: "I mean, it is {playerName}."
 I turn to her, slowly. 
 "{playerName} was given to me by my mother. It was her name as well."
 "You should remember these things, Meyir." I say sternly.
+"Yes, Khan {playerName}," Meyir said, without further challenge in her voice.
+We rode the rest of the way home in silence.
+~ ChangeBackground("canyon")
+~ Scene_Home()
+~ ToggleGameplay(true)
 -> END
 
-=== look_at_this ===
-Some story.
-Woohoo!
-I still remember vars.
-Like, for example: Meyir was big <>
-    { meyir_mood == "suppressed_rage":
-        mad.
-    }
-    { meyir_mood == "excited_for_attack": 
-        happy.
-    }
-    { meyir_mood == "zen_blames_Lengu":
-        chill.
-    }
-*   Fart.
-    Ewww!
-    -> END
-*   Dance.
-    Whoa!
-    -> END
+=== red_house ===
+We've gotten this place during our last raid on the riverfolk.
+Most riders live in yurts.
+As Khan, I decided to take one of the stone houses.
+Normally, I wouldn't. Riverfolk houses aren't better in any way.
+This time, however...
+*   I needed warmth for my injury.
+*   I wished to study their living conditions.
+    And so I enter into my house.
+    Nothing seems amiss.
 
-
-=== look_at_that ===
-Some other story.
-Weehee!
-I still remember vars.
-Like, for example: Meyir was big <>
-    { meyir_mood == "suppressed_rage":
-        mad.
-    }
-    { meyir_mood == "excited_for_attack": 
-        happy.
-    }
-    { meyir_mood == "zen_blames_Lengu":
-        chill.
-    }
-*   Shit.
-    Eugh!
-    -> END
-*   Sing.
-    Gorge!
-    -> END
+=== green_house ===
+I enter the largest house.
+We've been using this as a common house.
+The oldest raiders huddled on the floor in front of a large map.
+They held tea pialas in their hands.
+Seeing me approach, they quickly handed one to me.
+*   I took the piala.
+*   I sternly shook my head.
+    I sat down near them, studying the map.
+    "Khan {playerName}," said Bortu, one of the oldest, most reliable raiders raiders.
+    "The Winged Ones have been quiet today."

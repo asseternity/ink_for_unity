@@ -11,6 +11,9 @@ public class StoryManager : MonoBehaviour
     public Story story;
 
     [SerializeField]
+    private GameObject canvas = null;
+
+    [SerializeField]
     private GameObject panel = null;
 
     [SerializeField]
@@ -28,6 +31,12 @@ public class StoryManager : MonoBehaviour
 
     [SerializeField]
     private GameObject backgroundObject = null;
+
+    [SerializeField]
+    private GameObject greenHouse = null;
+
+    [SerializeField]
+    private GameObject redHouse = null;
 
     private bool isChoiceDisplayed = false; // Tracks if choices are already displayed
     private List<Button> activeButtons = new List<Button>(); // List to store active buttons
@@ -52,10 +61,12 @@ public class StoryManager : MonoBehaviour
             {
                 if (shouldItStart)
                 {
+                    canvas.SetActive(false);
                     isGameplayActive = true;
                 }
                 else
                 {
+                    canvas.SetActive(true);
                     isGameplayActive = false;
                 }
             }
@@ -81,15 +92,16 @@ public class StoryManager : MonoBehaviour
                 );
             }
         );
+        story.BindExternalFunction("Scene_Home", () => Scene_Home());
+
+        string storyText = story.Continue();
+        CreateTextObject(storyText);
     }
 
     public void UpdateClick()
     {
         if (!isGameplayActive)
         {
-            // scroll to the bottom
-            ScrollRect scrollRect = panel.GetComponent<ScrollRect>();
-            scrollRect.verticalNormalizedPosition = 0f;
             // If there is still content to continue, show it.
             if (story.canContinue)
             {
@@ -109,6 +121,10 @@ public class StoryManager : MonoBehaviour
                 // Mark that choices have been displayed
                 isChoiceDisplayed = true;
             }
+            // scroll to the bottom
+            ScrollRect scrollRect = panel.GetComponent<ScrollRect>();
+            Canvas.ForceUpdateCanvases();
+            scrollRect.verticalNormalizedPosition = 0f;
         }
     }
 
@@ -117,6 +133,13 @@ public class StoryManager : MonoBehaviour
         // This will start the story from the given tag name (e.g., "NPCConversationStart")
         story.ChoosePathString(tagName);
         isGameplayActive = false;
+        canvas.SetActive(true);
+    }
+
+    public void Scene_Home()
+    {
+        redHouse.SetActive(true);
+        greenHouse.SetActive(true);
     }
 
     // Create a new Text object for displaying the story
