@@ -1,6 +1,6 @@
 ﻿EXTERNAL ChangeBackground(imageName)
 EXTERNAL ToggleGameplay(shouldItStart)
-EXTERNAL AskInput(varName, continueTag)
+EXTERNAL AskInput(varName, placeholder, continueTag)
 EXTERNAL Scene_Home()
 
 VAR meyir_mood = ""
@@ -63,7 +63,7 @@ VAR playerName = ""
     I nod.
     "What does your name mean?" she asks unexpectedly.
     There's a genuineness to her voice. 
-    ~ AskInput("playerName", "name_given")
+    ~ AskInput("playerName", "Enter your name...", "name_given")
     -> END
 
 === name_given ===
@@ -87,8 +87,9 @@ Normally, I wouldn't. Riverfolk houses aren't better in any way.
 This time, however...
 *   I needed warmth for my injury.
 *   I wished to study their living conditions.
-    And so I enter into my house.
+-   And so I enter into my house.
     Nothing seems amiss.
+    -> END
 
 === green_house ===
 I enter the largest house.
@@ -98,6 +99,7 @@ They held tea pialas in their hands.
 Seeing me approach, they quickly handed one to me.
 *   I took the piala.
 *   I sternly shook my head.
-    I sat down near them, studying the map.
+-   I sat down near them, studying the map.
     "Khan {playerName}," said Bortu, one of the oldest, most reliable raiders raiders.
     "The Winged Ones have been quiet today."
+    -> END

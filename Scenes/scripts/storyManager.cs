@@ -30,6 +30,9 @@ public class StoryManager : MonoBehaviour
     private InputField inputPrefab = null;
 
     [SerializeField]
+    private GameObject continueButton = null;
+
+    [SerializeField]
     private GameObject backgroundObject = null;
 
     [SerializeField]
@@ -63,25 +66,24 @@ public class StoryManager : MonoBehaviour
                 {
                     canvas.SetActive(false);
                     isGameplayActive = true;
+                    continueButton.GetComponent<Button>().interactable = false;
                 }
                 else
                 {
                     canvas.SetActive(true);
                     isGameplayActive = false;
+                    continueButton.GetComponent<Button>().interactable = true;
                 }
             }
         );
         story.BindExternalFunction(
             "AskInput",
-            (string varName, string continueTag) =>
+            (string varName, string placeholder, string continueTag) =>
             {
-                // Pause the story and start gameplay
                 isGameplayActive = true;
-
-                // Create and display the input field
+                continueButton.GetComponent<Button>().interactable = false;
                 InputField newInputField = Instantiate(inputPrefab, textContainer.transform);
-
-                // Optionally, adjust input field appearance, or add listeners to the input
+                newInputField.placeholder.GetComponent<Text>().text = placeholder;
                 newInputField.onEndEdit.AddListener(
                     (string userInput) =>
                     {
@@ -133,6 +135,7 @@ public class StoryManager : MonoBehaviour
         // This will start the story from the given tag name (e.g., "NPCConversationStart")
         story.ChoosePathString(tagName);
         isGameplayActive = false;
+        continueButton.GetComponent<Button>().interactable = true;
         canvas.SetActive(true);
     }
 
@@ -175,6 +178,7 @@ public class StoryManager : MonoBehaviour
         // Reset choice display flag after the player has selected an option
         isChoiceDisplayed = false;
         DestroyChoiceButtons(); // Destroy the buttons after a choice is made
+        UpdateClick();
     }
 
     // Destroy all active choice buttons
@@ -185,5 +189,30 @@ public class StoryManager : MonoBehaviour
             Destroy(button.gameObject); // Destroy the button GameObject
         }
         activeButtons.Clear(); // Clear the list of active buttons
+    }
+
+    public void Save()
+    {
+        string savedJson = story.state.ToJson();
+        PlayerPrefs.SetString("storySave", savedJson);
+        PlayerPrefs.Save();
+    }
+
+    public void Load()
+    {
+        if (PlayerPrefs.HasKey("storySave"))
+        {
+            string loadedJson = PlayerPrefs.GetString("storySave");
+            story.state.LoadJson(loadedJson);
+            foreach (Transform child in panel.transform)
+            {
+                Destroy(child.gameObject);
+            }
+            UpdateClick();
+        }
+        else
+        {
+            Debug.Log("No save data found.");
+        }
     }
 }
