@@ -19,9 +19,9 @@ public class todo : MonoBehaviour
     // [v] show one line own when picking a choice
     // [v] show what you're entering on input
     // [v] grey out continue if gameplay is on
-    // [_] pause menu
+    // [v] pause menu
+    // [v] how to save
     // [_] show portraits on top of images
-    // [_] how to save
     // [_] main menu
 
     // Better tutorials: https://pressbooks.library.torontomu.ca/playablestoriesink/chapter/chapter-5-variables-and-logic/

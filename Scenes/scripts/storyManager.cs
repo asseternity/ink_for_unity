@@ -44,6 +44,7 @@ public class StoryManager : MonoBehaviour
     private bool isChoiceDisplayed = false; // Tracks if choices are already displayed
     private List<Button> activeButtons = new List<Button>(); // List to store active buttons
     private bool isGameplayActive = false;
+    private List<string> displayedText = new List<string>();
 
     void Awake()
     {
@@ -148,10 +149,9 @@ public class StoryManager : MonoBehaviour
     // Create a new Text object for displaying the story
     void CreateTextObject(string text)
     {
-        // Instantiate the new Text object
+        displayedText.Add(text);
         Text newText = Instantiate(textPrefab, textContainer.transform);
         newText.text = text;
-        // Force a canvas update to refresh the layout
         Canvas.ForceUpdateCanvases();
     }
 
@@ -174,6 +174,7 @@ public class StoryManager : MonoBehaviour
     // Handle the player's choice selection
     void OnChoiceSelected(int choiceIndex)
     {
+        displayedText.Add(story.currentChoices[choiceIndex].text);
         story.ChooseChoiceIndex(choiceIndex); // Apply the selected choice to the story
         // Reset choice display flag after the player has selected an option
         isChoiceDisplayed = false;
@@ -191,28 +192,55 @@ public class StoryManager : MonoBehaviour
         activeButtons.Clear(); // Clear the list of active buttons
     }
 
-    public void Save()
+    public void Save(int slot)
     {
         string savedJson = story.state.ToJson();
-        PlayerPrefs.SetString("storySave", savedJson);
+        PlayerPrefs.SetString($"storySave_{slot}", savedJson);
+        string textHistory = string.Join("|SPLIT|", displayedText); // Use a unique separator
+        PlayerPrefs.SetString($"textHistory_{slot}", textHistory);
         PlayerPrefs.Save();
     }
 
-    public void Load()
+    public void Load(int slot)
     {
-        if (PlayerPrefs.HasKey("storySave"))
+        if (PlayerPrefs.HasKey($"storySave_{slot}"))
         {
-            string loadedJson = PlayerPrefs.GetString("storySave");
+            string loadedJson = PlayerPrefs.GetString($"storySave_{slot}");
             story.state.LoadJson(loadedJson);
-            foreach (Transform child in panel.transform)
+
+            // Clear previous text UI
+            foreach (Transform child in textContainer.transform)
             {
                 Destroy(child.gameObject);
             }
-            UpdateClick();
+
+            // Load displayed text history
+            if (PlayerPrefs.HasKey($"textHistory_{slot}"))
+            {
+                string textHistory = PlayerPrefs.GetString($"textHistory_{slot}");
+                displayedText = new List<string>(
+                    textHistory.Split(new string[] { "|SPLIT|" }, StringSplitOptions.None)
+                );
+
+                foreach (string text in displayedText)
+                {
+                    Text newText = Instantiate(textPrefab, textContainer.transform);
+                    newText.text = text;
+                    Canvas.ForceUpdateCanvases();
+                }
+            }
+
+            if (story.currentChoices.Count > 0)
+            {
+                UpdateClick();
+            }
+            ScrollRect scrollRect = panel.GetComponent<ScrollRect>();
+            Canvas.ForceUpdateCanvases();
+            scrollRect.verticalNormalizedPosition = 0f;
         }
         else
         {
-            Debug.Log("No save data found.");
+            Debug.Log($"No save data found for slot {slot}.");
         }
     }
 }
