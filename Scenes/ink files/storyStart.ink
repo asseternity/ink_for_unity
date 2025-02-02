@@ -107,5 +107,6 @@ Seeing me approach, they quickly handed one to me.
 -   I sat down near them, studying the map.
     "Khan {playerName}," said Bortu, one of the oldest, most reliable raiders raiders.
     "The Winged Ones have been quiet today."
+    ~ ChangePortraits("", "", "")
     ~ ToggleGameplay(true)
     -> END

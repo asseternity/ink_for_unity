@@ -37,6 +37,9 @@ public class StoryManager : MonoBehaviour
     private GameObject backgroundObject = null;
 
     [SerializeField]
+    private GameObject tagsPanel = null;
+
+    [SerializeField]
     private GameObject leftPortrait = null;
 
     [SerializeField]
@@ -85,12 +88,14 @@ public class StoryManager : MonoBehaviour
                 if (shouldItStart)
                 {
                     canvas.SetActive(false);
+                    tagsPanel.SetActive(false);
                     isGameplayActive = true;
                     continueButton.GetComponent<Button>().interactable = false;
                 }
                 else
                 {
                     canvas.SetActive(true);
+                    tagsPanel.SetActive(true);
                     isGameplayActive = false;
                     continueButton.GetComponent<Button>().interactable = true;
                 }
@@ -214,6 +219,7 @@ public class StoryManager : MonoBehaviour
         isGameplayActive = false;
         continueButton.GetComponent<Button>().interactable = true;
         canvas.SetActive(true);
+        tagsPanel.SetActive(true);
     }
 
     public void Scene_Home()

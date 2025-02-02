@@ -565,6 +565,7 @@ MonoBehaviour:
   inputPrefab: {fileID: 5223328761661901162, guid: b40064748e822ab4b8c677e6f33becf3, type: 3}
   continueButton: {fileID: 1302270011}
   backgroundObject: {fileID: 1999057400}
+  tagsPanel: {fileID: 1031177625}
   leftPortrait: {fileID: 327672649}
   centerPortrait: {fileID: 1607010012}
   rightPortrait: {fileID: 182223102}
