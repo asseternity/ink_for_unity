@@ -22,6 +22,7 @@ public class todo : MonoBehaviour
     // [v] pause menu
     // [v] how to save
     // [v] show portraits on top of images
+    // [v] little context clue of who each portrait is of
     // [_] save slots menu
     // [_] main menu
     // [_] make a super easy to make ink-platformer game

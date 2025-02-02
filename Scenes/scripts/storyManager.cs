@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Ink.Runtime;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class StoryManager : MonoBehaviour
 {
@@ -43,6 +44,15 @@ public class StoryManager : MonoBehaviour
 
     [SerializeField]
     private GameObject rightPortrait = null;
+
+    [SerializeField]
+    private GameObject leftText = null;
+
+    [SerializeField]
+    private GameObject centerText = null;
+
+    [SerializeField]
+    private GameObject rightText = null;
 
     [SerializeField]
     private GameObject greenHouse = null;
@@ -115,12 +125,16 @@ public class StoryManager : MonoBehaviour
                 {
                     imageLeft.sprite = null;
                     leftPortrait.SetActive(false);
+                    TMP_Text spriteName = leftText.GetComponent<TMP_Text>();
+                    spriteName.text = "";
                 }
                 else
                 {
                     leftPortrait.SetActive(true);
                     Sprite spriteLeft = Resources.Load<Sprite>($"portraits/{leftSprite}");
                     imageLeft.sprite = spriteLeft;
+                    TMP_Text spriteName = leftText.GetComponent<TMP_Text>();
+                    spriteName.text = leftSprite;
                 }
 
                 Image imageCenter = centerPortrait.GetComponent<Image>();
@@ -128,12 +142,16 @@ public class StoryManager : MonoBehaviour
                 {
                     imageCenter.sprite = null;
                     centerPortrait.SetActive(false);
+                    TMP_Text spriteName = centerText.GetComponent<TMP_Text>();
+                    spriteName.text = "";
                 }
                 else
                 {
                     centerPortrait.SetActive(true);
                     Sprite spriteCenter = Resources.Load<Sprite>($"portraits/{centerSprite}");
                     imageCenter.sprite = spriteCenter;
+                    TMP_Text spriteName = centerText.GetComponent<TMP_Text>();
+                    spriteName.text = centerSprite;
                 }
 
                 Image imageRight = rightPortrait.GetComponent<Image>();
@@ -141,12 +159,16 @@ public class StoryManager : MonoBehaviour
                 {
                     imageRight.sprite = null;
                     rightPortrait.SetActive(false);
+                    TMP_Text spriteName = rightText.GetComponent<TMP_Text>();
+                    spriteName.text = "";
                 }
                 else
                 {
                     rightPortrait.SetActive(true);
                     Sprite spriteRight = Resources.Load<Sprite>($"portraits/{rightSprite}");
                     imageRight.sprite = spriteRight;
+                    TMP_Text spriteName = rightText.GetComponent<TMP_Text>();
+                    spriteName.text = rightSprite;
                 }
             }
         );

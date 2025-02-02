@@ -8,7 +8,7 @@ VAR meyir_mood = ""
 VAR playerName = ""
 
 ~ ChangeBackground("camp")
-~ ChangePortraits("", "warrior_human_woman_05", "")
+~ ChangePortraits("", "Meyir", "")
 
 "Look at them," Meyir said, pointing at the camp down in the valley. "Traitors of our cause."
 *   "Don't speak like they do[."]," I replied.
@@ -92,6 +92,7 @@ This time, however...
 *   I wished to study their living conditions.
 -   And so I enter into my house.
     Nothing seems amiss.
+    ~ ToggleGameplay(true)
     -> END
 
 === green_house ===
@@ -99,11 +100,12 @@ I enter the largest house.
 We've been using this as a common house.
 The oldest raiders huddled on the floor in front of a large map.
 They held tea pialas in their hands.
-~ ChangePortraits("warrior_human_man_05", "", "wizard_human_man_03")
+~ ChangePortraits("Ayan", "", "Bortu")
 Seeing me approach, they quickly handed one to me.
 *   I took the piala.
 *   I sternly shook my head.
 -   I sat down near them, studying the map.
     "Khan {playerName}," said Bortu, one of the oldest, most reliable raiders raiders.
     "The Winged Ones have been quiet today."
+    ~ ToggleGameplay(true)
     -> END
