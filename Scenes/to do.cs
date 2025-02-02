@@ -21,8 +21,10 @@ public class todo : MonoBehaviour
     // [v] grey out continue if gameplay is on
     // [v] pause menu
     // [v] how to save
-    // [_] show portraits on top of images
+    // [v] show portraits on top of images
+    // [_] save slots menu
     // [_] main menu
+    // [_] make a super easy to make ink-platformer game
 
     // Better tutorials: https://pressbooks.library.torontomu.ca/playablestoriesink/chapter/chapter-5-variables-and-logic/
     // Get inky editor

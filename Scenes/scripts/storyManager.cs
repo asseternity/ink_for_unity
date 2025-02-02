@@ -36,6 +36,15 @@ public class StoryManager : MonoBehaviour
     private GameObject backgroundObject = null;
 
     [SerializeField]
+    private GameObject leftPortrait = null;
+
+    [SerializeField]
+    private GameObject centerPortrait = null;
+
+    [SerializeField]
+    private GameObject rightPortrait = null;
+
+    [SerializeField]
     private GameObject greenHouse = null;
 
     [SerializeField]
@@ -96,6 +105,51 @@ public class StoryManager : MonoBehaviour
             }
         );
         story.BindExternalFunction("Scene_Home", () => Scene_Home());
+
+        story.BindExternalFunction(
+            "ChangePortraits",
+            (string leftSprite, string centerSprite, string rightSprite) =>
+            {
+                Image imageLeft = leftPortrait.GetComponent<Image>();
+                if (leftSprite == "")
+                {
+                    imageLeft.sprite = null;
+                    leftPortrait.SetActive(false);
+                }
+                else
+                {
+                    leftPortrait.SetActive(true);
+                    Sprite spriteLeft = Resources.Load<Sprite>($"portraits/{leftSprite}");
+                    imageLeft.sprite = spriteLeft;
+                }
+
+                Image imageCenter = centerPortrait.GetComponent<Image>();
+                if (centerSprite == "")
+                {
+                    imageCenter.sprite = null;
+                    centerPortrait.SetActive(false);
+                }
+                else
+                {
+                    centerPortrait.SetActive(true);
+                    Sprite spriteCenter = Resources.Load<Sprite>($"portraits/{centerSprite}");
+                    imageCenter.sprite = spriteCenter;
+                }
+
+                Image imageRight = rightPortrait.GetComponent<Image>();
+                if (rightSprite == "")
+                {
+                    imageRight.sprite = null;
+                    rightPortrait.SetActive(false);
+                }
+                else
+                {
+                    rightPortrait.SetActive(true);
+                    Sprite spriteRight = Resources.Load<Sprite>($"portraits/{rightSprite}");
+                    imageRight.sprite = spriteRight;
+                }
+            }
+        );
 
         string storyText = story.Continue();
         CreateTextObject(storyText);
