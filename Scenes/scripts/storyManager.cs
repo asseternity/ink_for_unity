@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Ink.Runtime;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class StoryManager : MonoBehaviour
 {
@@ -280,7 +280,17 @@ public class StoryManager : MonoBehaviour
         PlayerPrefs.SetString($"storySave_{slot}", savedJson);
         string textHistory = string.Join("|SPLIT|", displayedText); // Use a unique separator
         PlayerPrefs.SetString($"textHistory_{slot}", textHistory);
+        // save identifiers
+        string playerNameString = story.variablesState["playerName"].ToString();
+        if (playerNameString == "")
+        {
+            playerNameString = "???";
+        }
+        PlayerPrefs.SetString($"saveName_{slot}", playerNameString);
+        string formattedDate = DateTime.Now.ToString("dd-MM-yyyy, HH:mm");
+        PlayerPrefs.SetString($"saveDate_{slot}", formattedDate);
         PlayerPrefs.Save();
+        Debug.Log("Saved: " + playerNameString + " | " + formattedDate);
     }
 
     public void Load(int slot)
