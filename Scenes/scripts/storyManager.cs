@@ -274,7 +274,7 @@ public class StoryManager : MonoBehaviour
         activeButtons.Clear(); // Clear the list of active buttons
     }
 
-    public void Save(int slot)
+    public string Save(int slot)
     {
         string savedJson = story.state.ToJson();
         PlayerPrefs.SetString($"storySave_{slot}", savedJson);
@@ -291,6 +291,7 @@ public class StoryManager : MonoBehaviour
         PlayerPrefs.SetString($"saveDate_{slot}", formattedDate);
         PlayerPrefs.Save();
         Debug.Log("Saved: " + playerNameString + " | " + formattedDate);
+        return playerNameString + " | " + formattedDate;
     }
 
     public void Load(int slot)

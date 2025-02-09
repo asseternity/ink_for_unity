@@ -22,7 +22,7 @@ public class pauseMenu : MonoBehaviour
         }
     }
 
-    void TogglePause()
+    public void TogglePause()
     {
         loadPanel.SetActive(false);
         savePanel.SetActive(false);
@@ -70,7 +70,8 @@ public class pauseMenu : MonoBehaviour
             int slotIndex = i; // Store in a local variable to avoid closure issues
             saveButton.onClick.AddListener(() =>
             {
-                smScript.Save(slotIndex);
+                string newSave = smScript.Save(slotIndex);
+                saveText.text = newSave;
             });
         }
         pausePanel.SetActive(false);
@@ -79,10 +80,36 @@ public class pauseMenu : MonoBehaviour
 
     public void GoToLoadSlots()
     {
-        // this needs to populate load slots using StoryManager's Load
+        // Ensure StoryManager script is fetched once
+        StoryManager smScript = storyManager.GetComponent<StoryManager>();
 
+        for (int i = 0; i < loadSlots.Count; i++)
+        {
+            // Retrieve save slot data from PlayerPrefs
+            string slotName = PlayerPrefs.GetString($"saveName_{i}", "");
+            string slotDate = PlayerPrefs.GetString($"saveDate_{i}", "");
+            Debug.Log("slot " + i + " - " + slotName + " | " + slotDate);
+            Text saveText = loadSlots[i].GetComponentInChildren<Text>();
+            Button saveButton = loadSlots[i].GetComponentInChildren<Button>();
+            // Clear previous listeners to avoid duplicate calls
+            saveButton.onClick.RemoveAllListeners();
+            if (!string.IsNullOrEmpty(slotName) && !string.IsNullOrEmpty(slotDate))
+            {
+                saveText.text = slotName + " | " + slotDate;
+            }
+            else
+            {
+                saveText.text = "Empty...";
+            }
+            int slotIndex = i; // Store in a local variable to avoid closure issues
+            saveButton.onClick.AddListener(async () =>
+            {
+                smScript.Load(slotIndex);
+                TogglePause();
+            });
+        }
         pausePanel.SetActive(false);
-        loadPanel.SetActive(true);
+        savePanel.SetActive(true);
     }
 
     public void ReturnToPausePanel()
