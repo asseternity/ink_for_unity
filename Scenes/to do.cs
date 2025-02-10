@@ -26,7 +26,8 @@ public class todo : MonoBehaviour
     // [v] save slots menu
     // [v] populate load slots menu
     // [v] update the save slots menu on click
-    // [_] are you sure to overwrite?
+    // [v] are you sure to overwrite?
+    // [v] save loading of portraits, tips and backgrounds
     // [_] main menu
     // [_] make a super easy to make ink-platformer game
 

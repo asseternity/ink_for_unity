@@ -280,7 +280,11 @@ public class StoryManager : MonoBehaviour
         PlayerPrefs.SetString($"storySave_{slot}", savedJson);
         string textHistory = string.Join("|SPLIT|", displayedText); // Use a unique separator
         PlayerPrefs.SetString($"textHistory_{slot}", textHistory);
-        // save identifiers
+        // save portraits and background
+        VisualSetter visualSetter = GetComponent<VisualSetter>();
+        string visualSaveData = visualSetter.GetCurrentVisualConfig();
+        PlayerPrefs.SetString($"visualData_{slot}", visualSaveData);
+        // save save file identifiers
         string playerNameString = story.variablesState["playerName"].ToString();
         if (playerNameString == "")
         {
@@ -290,7 +294,6 @@ public class StoryManager : MonoBehaviour
         string formattedDate = DateTime.Now.ToString("dd-MM-yyyy, HH:mm");
         PlayerPrefs.SetString($"saveDate_{slot}", formattedDate);
         PlayerPrefs.Save();
-        Debug.Log("Saved: " + playerNameString + " | " + formattedDate);
         return playerNameString + " | " + formattedDate;
     }
 
@@ -322,6 +325,11 @@ public class StoryManager : MonoBehaviour
                     Canvas.ForceUpdateCanvases();
                 }
             }
+
+            // load portraits and background
+            string visualSavaData = PlayerPrefs.GetString($"visualData_{slot}");
+            VisualSetter visualSetter = GetComponent<VisualSetter>();
+            visualSetter.SetVisualConfig(visualSavaData);
 
             if (story.currentChoices.Count > 0)
             {

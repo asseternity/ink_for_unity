@@ -52,10 +52,10 @@ public class pauseMenu : MonoBehaviour
 
         for (int i = 0; i < saveSlots.Count; i++)
         {
+            int slotIndex = i; // Store in a local variable to avoid closure issues
             // Retrieve save slot data from PlayerPrefs
             string slotName = PlayerPrefs.GetString($"saveName_{i}", "");
             string slotDate = PlayerPrefs.GetString($"saveDate_{i}", "");
-            Debug.Log("slot " + i + " - " + slotName + " | " + slotDate);
             Text saveText = saveSlots[i].GetComponentInChildren<Text>();
             Button saveButton = saveSlots[i].GetComponentInChildren<Button>();
             // Clear previous listeners to avoid duplicate calls
@@ -63,7 +63,6 @@ public class pauseMenu : MonoBehaviour
             if (!string.IsNullOrEmpty(slotName) && !string.IsNullOrEmpty(slotDate))
             {
                 saveText.text = slotName + " | " + slotDate;
-                int slotIndex = i; // Store in a local variable to avoid closure issues
                 // This brings up the overwrite panel
                 saveButton.onClick.AddListener(() =>
                 {
@@ -71,12 +70,24 @@ public class pauseMenu : MonoBehaviour
                     Button yesButton = yesPanel.GetComponent<Button>();
                     Transform noPanel = overwritePanel.transform.Find("Panel/Overwrite_no");
                     Button noButton = noPanel.GetComponent<Button>();
+                    overwritePanel.SetActive(true);
+                    yesButton.onClick.RemoveAllListeners();
+                    noButton.onClick.RemoveAllListeners();
+                    yesButton.onClick.AddListener(() =>
+                    {
+                        string newSave = smScript.Save(slotIndex);
+                        saveText.text = newSave;
+                        overwritePanel.SetActive(false);
+                    });
+                    noButton.onClick.AddListener(() =>
+                    {
+                        overwritePanel.SetActive(false);
+                    });
                 });
             }
             else
             {
                 saveText.text = "Empty...";
-                int slotIndex = i; // Store in a local variable to avoid closure issues
                 saveButton.onClick.AddListener(() =>
                 {
                     string newSave = smScript.Save(slotIndex);
@@ -98,7 +109,6 @@ public class pauseMenu : MonoBehaviour
             // Retrieve save slot data from PlayerPrefs
             string slotName = PlayerPrefs.GetString($"saveName_{i}", "");
             string slotDate = PlayerPrefs.GetString($"saveDate_{i}", "");
-            Debug.Log("slot " + i + " - " + slotName + " | " + slotDate);
             Text saveText = loadSlots[i].GetComponentInChildren<Text>();
             Button saveButton = loadSlots[i].GetComponentInChildren<Button>();
             // Clear previous listeners to avoid duplicate calls
@@ -112,14 +122,14 @@ public class pauseMenu : MonoBehaviour
                 saveText.text = "Empty...";
             }
             int slotIndex = i; // Store in a local variable to avoid closure issues
-            saveButton.onClick.AddListener(async () =>
+            saveButton.onClick.AddListener(() =>
             {
                 smScript.Load(slotIndex);
                 TogglePause();
             });
         }
         pausePanel.SetActive(false);
-        savePanel.SetActive(true);
+        loadPanel.SetActive(true);
     }
 
     public void ReturnToPausePanel()
