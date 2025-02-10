@@ -9,6 +9,7 @@ public class pauseMenu : MonoBehaviour
     public GameObject pausePanel;
     public GameObject savePanel;
     public GameObject loadPanel;
+    public GameObject overwritePanel;
     public List<GameObject> saveSlots = new List<GameObject>();
     public List<GameObject> loadSlots = new List<GameObject>();
     public GameObject storyManager;
@@ -62,17 +63,26 @@ public class pauseMenu : MonoBehaviour
             if (!string.IsNullOrEmpty(slotName) && !string.IsNullOrEmpty(slotDate))
             {
                 saveText.text = slotName + " | " + slotDate;
+                int slotIndex = i; // Store in a local variable to avoid closure issues
+                // This brings up the overwrite panel
+                saveButton.onClick.AddListener(() =>
+                {
+                    Transform yesPanel = overwritePanel.transform.Find("Panel/Overwrite_yes");
+                    Button yesButton = yesPanel.GetComponent<Button>();
+                    Transform noPanel = overwritePanel.transform.Find("Panel/Overwrite_no");
+                    Button noButton = noPanel.GetComponent<Button>();
+                });
             }
             else
             {
                 saveText.text = "Empty...";
+                int slotIndex = i; // Store in a local variable to avoid closure issues
+                saveButton.onClick.AddListener(() =>
+                {
+                    string newSave = smScript.Save(slotIndex);
+                    saveText.text = newSave;
+                });
             }
-            int slotIndex = i; // Store in a local variable to avoid closure issues
-            saveButton.onClick.AddListener(() =>
-            {
-                string newSave = smScript.Save(slotIndex);
-                saveText.text = newSave;
-            });
         }
         pausePanel.SetActive(false);
         savePanel.SetActive(true);
